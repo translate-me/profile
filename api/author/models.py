@@ -4,7 +4,7 @@ from django.db import models
 from django.utils.translation import gettext as _
 
 
-class Autor(models.Model):
+class Author(models.Model):
     username = models.CharField(_("username"), max_length=50, primary_key=True)
     name = models.CharField(_("name"), max_length=200)
     birthdate = models.DateField()

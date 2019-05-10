@@ -1,14 +1,14 @@
-from autor.models import Autor
+from author.models import Author
 from rest_framework import generics
-from autor.serializers import AutorSerializer
+from author.serializers import AuthorSerializer
 from rest_framework.permissions import AllowAny
 import requests as rq
 
 
-class AddNewAutor(generics.CreateAPIView):
+class AddNewAuthor(generics.CreateAPIView):
     permission_classes = [AllowAny]
-    queryset = Autor.objects.all()
-    serializer_class = AutorSerializer
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
 
     def post(self, requests, *args, **kwargs):
         json = requests.data
@@ -16,7 +16,7 @@ class AddNewAutor(generics.CreateAPIView):
                 "email": json['email'],
                 "password": json['password'],
                 }
-        obj = rq.post("http://192.168.0.8:8090/user/api/v0/create/",
+        obj = rq.post("http://192.168.0.15:8090/user/api/v0/create/",
                       data=data)
         if obj.status_code != 201:
             raise "Erro"
