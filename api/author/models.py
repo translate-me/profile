@@ -13,6 +13,8 @@ class Author(models.Model):
         verbose_name = _("name")
         verbose_name_plural = _("names")
 
+    def __str__(self):
+        return self.username
     def get_name(self):
         return self.name.strip()
 

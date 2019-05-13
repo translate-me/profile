@@ -19,7 +19,7 @@ services:
     volumes:
       - ./api:/api
     environment:
-      HOST_SERVER: ${HOST_SERVER}
+      HTTP_IP: ${HTTP_IP}
     ports:
       - "9042:9042"
     depends_on:
