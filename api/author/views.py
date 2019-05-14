@@ -68,3 +68,35 @@ class UpdateAuthor(generics.UpdateAPIView):
         if serializer.is_valid():
             serializer.save()
         return Response(serializer.data)
+
+
+class DestroyAuthor(generics.DestroyAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = AuthorSerializer
+    lookup_field = 'username'
+
+    def get_queryset(self):
+        username = self.kwargs.get('username', None)
+        queryset = Author.objects.filter(username=username)
+        return queryset
+
+    @swagger_auto_schema(request_body=AuthorSerializer,
+                         responses={200: "Delete is ok"},
+                         operation_description="Delete one author")
+    def perform_destroy(self, instance):
+        serializer = AuthorSerializer(data=self.get_queryset())
+        serializer.is_valid()
+        myToken = 'Token {}'.format(self.kwargs.get('token', None))
+        print(myToken)
+        auth = {'Authorization': myToken}
+        response = rq.delete(os.environ["HTTP_IP"] +
+                             ":8090/user/api/v0/destroy/"
+                             + instance.username + "/",
+                             headers=auth)
+        if response.status_code <= 200 and response.status_code >= 300:
+            message = response.reason
+            resp = JsonResponse({'status': 'false', 'message': message},
+                                status=response.status_code)
+            return resp
+
+        return instance.delete()
