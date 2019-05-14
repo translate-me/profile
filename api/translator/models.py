@@ -35,12 +35,17 @@ class Translator(models.Model):
 
 class Level(models.Model):
     class Meta:
-        unique_together = ('level_id', 'username')
-    level_id = models.PositiveIntegerField()
+        unique_together = ('language', 'username')
     language = models.ForeignKey(Language, on_delete=models.CASCADE, null=True)
-    certification = models.ForeignKey(Certification, on_delete=models.CASCADE)
+    certification = models.ForeignKey(Certification, on_delete=models.CASCADE,
+                                      null=True, blank=True)
     level = models.CharField(max_length=8, choices=LEVELS)
-    username = models.OneToOneField(Translator, on_delete=models.CASCADE)
+    username = models.ForeignKey(Translator, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        if self.certification is None:
+            self.level = "Low"
+        super(Level, self).save(*args, **kwargs)
 
     def __str__(self):
-        return str(self.username) + " | " + str(self.level_id)
+        return str(self.username) + " | " + str(self.language)
