@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'author',
     'rest_framework',
-    'rest_framework_swagger',
+    'drf_yasg',
     'translator'
 ]
 

@@ -3,26 +3,29 @@ from datetime import date as dt
 from author.models import Author
 from django.http import JsonResponse
 from rest_framework import generics
+from rest_framework.response import Response
 from author.serializers import (
     AuthorSerializer,
-    AuthorSerializerUpdate
+    AuthorSerializerUpdate,
+    SwaggerSerializer
 )
 from rest_framework.permissions import (
     AllowAny,
     IsAuthenticatedOrReadOnly
 )
+from drf_yasg.utils import swagger_auto_schema
 import requests as rq
 
 
 class AddNewAuthor(generics.CreateAPIView):
-    """
-    create:
-        create new author.
-    """
+
     permission_classes = [AllowAny]
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
 
+    @swagger_auto_schema(request_body=SwaggerSerializer,
+                         responses={200: AuthorSerializer},
+                         operation_description="Add new author.")
     def post(self, requests, *args, **kwargs):
         json = requests.data
         today = dt.today()
@@ -43,12 +46,25 @@ class AddNewAuthor(generics.CreateAPIView):
 
 
 class UpdateAuthor(generics.UpdateAPIView):
-    """
-    update:
-        update author.
-
-    """
     permission_classes = [IsAuthenticatedOrReadOnly]
-    queryset = Author.objects.all()
-    serializer_class = AuthorSerializerUpdate
     lookup_field = 'username'
+
+    @swagger_auto_schema(request_body=AuthorSerializerUpdate,
+                         responses={200: AuthorSerializerUpdate},
+                         operation_description="Update Author")
+    def put(self, requests, *args, **kwargs):
+        author = Author.objects.get(username=requests.username)
+        serializer = AuthorSerializerUpdate(author, data=requests.data)
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data)
+
+    @swagger_auto_schema(request_body=AuthorSerializerUpdate,
+                         responses={200: AuthorSerializerUpdate},
+                         operation_description="Update Author")
+    def patch(self, requests, *args, **kwargs):
+        author = Author.objects.get(username=requests.username)
+        serializer = AuthorSerializerUpdate(author, data=requests.data)
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data)
