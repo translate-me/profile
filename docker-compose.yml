@@ -1,5 +1,9 @@
 version: '3'
 
+networks:
+  profile_net:
+    driver: bridge
+
 services:
   db: 
     image: postgres
@@ -11,6 +15,9 @@ services:
       PGDATA: ${PERSISTENCE}
     ports:
         - "5435:5432"
+    networks:
+      - profile_net
+
 
   django:
     build: ./api
@@ -18,6 +25,8 @@ services:
     command: ash docker-entrypoint.sh
     volumes:
       - ./api:/api
+    networks:
+      - profile_net
     environment:
       HTTP_IP: ${HTTP_IP}
     ports:

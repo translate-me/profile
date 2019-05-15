@@ -1,4 +1,5 @@
 import os
+import socket
 from datetime import date as dt
 from author.models import Author
 from django.http import JsonResponse
@@ -35,7 +36,8 @@ class AddNewAuthor(generics.CreateAPIView):
                 "password": json['password'],
                 "data_joined": date
                 }
-        obj = rq.post(os.environ["HTTP_IP"]+":8090/user/api/v0/create/",
+        host = socket.gethostbyname('authentication_django')
+        obj = rq.post("http://"+host+":8090/user/api/v0/create/",
                       data=data)
         if obj.status_code != 201 and obj.status_code != 200:
             message = obj.reason
