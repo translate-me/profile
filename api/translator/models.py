@@ -17,13 +17,6 @@ class Language(models.Model):
         return str(self.lang_id) + " | " + self.name
 
 
-class Certification(models.Model):
-    archive = models.FileField(upload_to="certifications/", max_length=300)
-
-    def __str__(self):
-        return str(self.id)
-
-
 class Translator(models.Model):
     username = models.OneToOneField(Author, on_delete=models.CASCADE,
                                     primary_key=True)
@@ -33,19 +26,19 @@ class Translator(models.Model):
         return str(self.username)
 
 
-class Level(models.Model):
+class Speak(models.Model):
     class Meta:
         unique_together = ('language', 'username')
     language = models.ForeignKey(Language, on_delete=models.CASCADE, null=True)
-    certification = models.ForeignKey(Certification, on_delete=models.CASCADE,
-                                      null=True, blank=True)
+    certification = models.FileField(upload_to="certifications/",
+                                     max_length=300)
     level = models.CharField(max_length=8, choices=LEVELS)
     username = models.ForeignKey(Translator, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
         if self.certification is None:
             self.level = "Low"
-        super(Level, self).save(*args, **kwargs)
+        super(Speak, self).save(*args, **kwargs)
 
     def __str__(self):
         return str(self.username) + " | " + str(self.language)

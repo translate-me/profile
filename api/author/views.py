@@ -1,4 +1,3 @@
-import os
 import socket
 from datetime import date as dt
 from author.models import Author
@@ -89,9 +88,9 @@ class DestroyAuthor(generics.DestroyAPIView):
         serializer = AuthorSerializer(data=self.get_queryset())
         serializer.is_valid()
         myToken = 'Token {}'.format(self.kwargs.get('token', None))
-        print(myToken)
         auth = {'Authorization': myToken}
-        response = rq.delete(os.environ["HTTP_IP"] +
+        host = socket.gethostbyname('authentication_django')
+        response = rq.delete("http://"+host +
                              ":8090/user/api/v0/destroy/"
                              + instance.username + "/",
                              headers=auth)

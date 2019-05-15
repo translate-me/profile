@@ -1,13 +1,11 @@
 from django.contrib import admin
 from translator.models import (
     Language,
-    Certification,
     Translator,
-    Level
+    Speak
 )
 
 
 admin.site.register(Language)
-admin.site.register(Certification)
 admin.site.register(Translator)
-admin.site.register(Level)
+admin.site.register(Speak)

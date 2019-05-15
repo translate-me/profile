@@ -84,7 +84,7 @@ DATABASES = {
         'USER': 'admin',
         'PASSWORD': 'translate-me-pass',
         'HOST': 'profile_db',
-        'PORT': 5432,
+        'PORT': 5433,
     }
 }
 
