@@ -24,9 +24,4 @@ urlpatterns = [
     url(r"api/v0/destroy/(?P<username>\w+)/(?P<token>\w+)/$",
         DestroyAuthor.as_view(),
         name="destroy_author"),
-    url(r'^swagger/$',
-        schema_view.with_ui('swagger', cache_timeout=0),
-        name='schema-swagger-ui'),
-    url(r'^redoc/$',
-        schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

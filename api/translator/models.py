@@ -31,7 +31,7 @@ class Speak(models.Model):
         unique_together = ('language', 'username')
     language = models.ForeignKey(Language, on_delete=models.CASCADE, null=True)
     certification = models.FileField(upload_to="certifications/",
-                                     max_length=300)
+                                     max_length=300, null=True, blank=True)
     level = models.CharField(max_length=8, choices=LEVELS)
     username = models.ForeignKey(Translator, on_delete=models.CASCADE)
 

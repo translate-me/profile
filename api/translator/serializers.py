@@ -6,16 +6,16 @@ from translator.models import (
 )
 
 
-class LaguageCreateOrUpdateSerializer(serializers.ModelSerializer):
+class LanguageCreateOrUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
-        fiedls = ['name']
+        fields = ['name']
 
 
-class LaguageViewSerializer(serializers.ModelSerializer):
+class LanguageViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
-        fiedls = "__all__"
+        fields = "__all__"
 
 
 class TranslatorSerializer(serializers.ModelSerializer):

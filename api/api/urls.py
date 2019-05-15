@@ -15,8 +15,25 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.permissions import AllowAny
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Profile API",
+      default_version='v0',
+      description="Profile description",
+   ),
+   public=True,
+   permission_classes=(AllowAny,),
+)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('author/', include("author.urls"))
+    path('author/', include("author.urls")),
+    path('translator/', include("translator.urls")),
+    path('', schema_view.with_ui('swagger', cache_timeout=0)),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0)),
     ]

@@ -1,6 +1,6 @@
 #!/user/bin/env ash
 
-POSTGRES_PORT="5432"
+POSTGRES_PORT="5433"
 
 wait_ready() {
 echo "Aguardando o $1 na porta $2"
