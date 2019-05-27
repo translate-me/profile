@@ -25,7 +25,7 @@ SECRET_KEY = 'n5-kz+98sfrdl-blm!km@ztz0dkr$(njqno&lsg(j9(so9yd)d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'author',
+    'rest_framework',
+    'drf_yasg',
+    'translator'
 ]
 
 MIDDLEWARE = [
@@ -76,11 +80,11 @@ WSGI_APPLICATION = 'api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'auth_db',
+        'NAME': 'profile',
         'USER': 'admin',
         'PASSWORD': 'translate-me-pass',
-        'HOST': 'auth_db',
-        'PORT': 5432,
+        'HOST': 'profile_db',
+        'PORT': 5433,
     }
 }
 
