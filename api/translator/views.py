@@ -47,7 +47,6 @@ class ListLanguages(generics.ListAPIView):
 Translator
 """
 
-
 class AddNewTranslator(generics.CreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Translator.objects.all()
